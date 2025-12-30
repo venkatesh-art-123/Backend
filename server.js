@@ -2,7 +2,16 @@
 // require("./Learn/Module/In-built/function")
 // require("./Learn/Module/In-built/events")
 // require("./Learn/Module/In-built/extendevent")
-require("./Learn/Module/In-built/File/file")
+
+// File
+// require("./Learn/Module/In-built/File/file")
+//Stream
+// require("./Learn/Module/In-built/File/stream")
+// require("./Learn/Module/In-built/File/duplexstream")
+// Pipe
+require("./Learn/Module/In-built/File/streampipe")
+
+
 // console.log("direc name", __filename)
 // const app = require('express');
 // const PORT = 3000;
