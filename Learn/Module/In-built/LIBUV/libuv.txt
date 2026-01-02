@@ -1,0 +1,6 @@
+LIbuv is a open-source library , cross-platform & written in c Language.
+
+Why ?
+Handles the asynchronous non-blocking operation in node JS.
+
+Thread pool , Event Loop

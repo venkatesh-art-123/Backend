@@ -1,21 +1,24 @@
-const http = require("node:http")
-const fs = require("fs")
+const http = require("http");
 
+// Cilent to send any request we this callback function
 const server = http.createServer((req, res) => {
-    if (req?.url == "/html") {
-        const readFile = fs.readFileSync(__dirname + "/htmlfile.html", "utf-8")
-        res.writeHead(200, { "Content-Type": "text/html" })
-        res.end(readFile)
-    } else if(req?.url == "/pipe") {
-        const readStream = fs.createReadStream(__dirname + "/htmlfile.html", "utf-8")
-        res.writeHead(200, { "Content-Type": "text/html" })
-        readStream.pipe(res)
-        // res.end("Server is running")
-    }
-
-})
+  let contentText = { "Content-Type" : "text/plain"}
+  let contentJSON = { "Content-Type" : "application/json"}
+  let json = {
+    firstName : "venkatesh",
+    lastName : "JJ"
+  }
+  res.writeHead(200, contentJSON);
+  res.end(JSON.stringify(json)
+);
+});
 
 
 server.listen(3000, () => {
-    console.log("server is running on port 3000")
+    console.log("server running in port 3000")
 })
+
+
+
+
+
