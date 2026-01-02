@@ -1,4 +1,6 @@
 require("./Learn/Module/In-built/path")
+// buy price greater than sell price its must exectued
+
 // require("./Learn/Module/In-built/function")
 // require("./Learn/Module/In-built/events")
 // require("./Learn/Module/In-built/extendevent")
@@ -10,10 +12,6 @@ require("./Learn/Module/In-built/path")
 // require("./Learn/Module/In-built/File/duplexstream")
 // Pipe
 // require("./Learn/Module/In-built/File/streampipe")
-<<<<<<< HEAD
-// HTTP
-require("./Learn/Module/In-built/HTTP/http")
-=======
 
 // require("./Learn/Module/In-built/HTTP/http")
 
@@ -35,8 +33,7 @@ require("./Learn/Module/In-built/HTTP/http")
 // Timer queue
 // require("./Learn/Module/In-built/LIBUV/timerqueue")\
 
-require("./Learn/Module/In-built/LIBUV/ioqueue")
->>>>>>> 1d2cfad09468c2b5263f69f460b85983b7f7e970
+// require("./Learn/Module/In-built/LIBUV/ioqueue")
 
 // console.log("direc name", __filename)
 // const app = require('express');
