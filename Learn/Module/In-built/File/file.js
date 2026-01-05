@@ -1,4 +1,4 @@
-// // Include the fs module
+// Include the fs module
 // const fs = require('fs');
 // const path = require("path")
 
@@ -33,18 +33,18 @@
 //     }
 // })
 
+// -----------------------------------------------------------------------------
+// const fs = require("fs/promises")
+// const path = require("path")
 
-const fs = require("fs/promises")
-const path = require("path")
 
-
-fs.readFile(path.join(__dirname + "/greet.txt"), "utf-8").then((data) => {
-console.log("readFile_data", data)
-}).catch((err) => {
-    console.log("readFile_cathc", err)
-})
-async function readFileData() {
-const data = await fs.readFile(path.join(__dirname +"/greet.txt"), "utf-8")
-console.log("read Data", data)
-}
-readFileData()
+// fs.readFile(path.join(__dirname + "/greet.txt"), "utf-8").then((data) => {
+// console.log("readFile_data", data)
+// }).catch((err) => {
+//     console.log("readFile_cathc", err)
+// })
+// async function readFileData() {
+// const data = await fs.readFile(path.join(__dirname +"/greet.txt"), "utf-8")
+// console.log("read Data", data)
+// }
+// readFileData()

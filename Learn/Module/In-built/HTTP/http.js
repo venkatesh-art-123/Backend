@@ -1,6 +1,6 @@
 const http = require("http");
 
-// Cilent to send any request we this callback function
+// Cilent to send any request we see this data into the callback function
 const server = http.createServer((req, res) => {
   let contentText = { "Content-Type" : "text/plain"}
   let contentJSON = { "Content-Type" : "application/json"}
