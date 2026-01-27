@@ -16,10 +16,18 @@ const server = http.createServer((req, res) => {
     // res.end(html)
 
 
-let html = fs.createReadStream(__dirname + "/index1.html", "utf-8");
-html = html.replace("{{name}}", "venkatesh")
+let readStream = fs.createReadStream(__dirname + "/index1.html", "utf-8");
 
+readStream.on("data", (chunks) => {
+    console.log("reqdStream chunks", chunks)
+   let modified =  chunks.replace("{{name}}", "VENKATESH JJ");
+    res.write(modified)
+});
+
+readStream.on("end", () => {
 readStream.pipe(res)
+})
+
 });
 
 

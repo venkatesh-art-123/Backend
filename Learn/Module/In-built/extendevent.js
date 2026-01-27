@@ -28,3 +28,30 @@ orderPlace.emit("orderPlaced", "2342234");
 
 orderPlace.receivingOrder();
 orderPlace.emit("orderPlaced", "999999");
+
+
+// const eventEmitter = require("events");
+
+// class orderEmitter extends eventEmitter {
+
+//     constructor() {
+//         super() // we access the parent constructor
+//         this.on("orderplacing", (orderID) => {
+//             console.log("receiving orderId", orderID)
+//         })
+//     }
+
+//     receiveOrder(data) {
+//         this.emit("orderplacing", data)
+//     }
+
+// }
+
+// let emitter = new orderEmitter;
+
+// emitter.receiveOrder("63456344");
+
+// emitter.receiveOrder("634563422")
+
+
+
