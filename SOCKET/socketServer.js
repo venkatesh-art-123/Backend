@@ -14,7 +14,7 @@ const socketIO = new Server(server);
 
 const todoList = [];
 // Established the channel
-const todoListSpaceName = socketIO.of('/http:'); // channel
+const todoListSpaceName = socketIO.of('http://127.0.0.1:5500/'); // channel
 
 todoListSpaceName.on("connection", (socket) => {
 console.log("new connection established")

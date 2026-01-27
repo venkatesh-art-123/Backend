@@ -59,7 +59,10 @@
 // require("./Learn/Module/In-built/Express/express")
 
 // JWT
-require("./JWT/jwtsecurity")
+// require("./JWT/jwtsecurity")
+
+// SOCKET.IO
+require("./SOCKET-JS/socketserver")
 
 
 
@@ -74,3 +77,6 @@ require("./JWT/jwtsecurity")
 //     console.log("Server is listening");
 // })
 
+
+
+// app.use(express.static("public"));
