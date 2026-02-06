@@ -1,11 +1,14 @@
 const express = require("express");
 const http = require("http");
 const cors = require("cors")
-const { Server } = require("socket.io")
+const { Server } = require("socket.io");
+const { connectDB } = require("../dbConnection/mongoconnect");
+const router = require("../Module/Router/learnRouter");
 const app = express();
 app.use(cors({
     origin: "*"
 }))
+app.use("/api", router)
 const server = http.createServer(app);
 
 const socketIO = new Server(server, {
@@ -22,4 +25,7 @@ socketIO.on("connect", (socket) => {
 
 })
 
-server.listen(3000, () => console.log("Server is running port ui 3000"))
+server.listen(4321, () => {
+    connectDB()
+    console.log("Server is running port ui 3000");
+})
