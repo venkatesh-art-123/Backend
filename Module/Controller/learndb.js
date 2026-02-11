@@ -74,10 +74,21 @@ const monthlyBudget = async (req, res) => {
         // const datas = await db.collection("monthlyBudget").find({ $expr: { $gt: ["$budget", "$spent"] } }).toArray();
         // console.log("insert multiple data", datas)
         // return res.json({ data: datas })
+        // budget : 100, spent : 200
+        // budget : 200, spent : 300
+        await db.collection("monthlyBudget").aggregate([
+            {
+                $and: [ { "budget" : { $gt : 150 }}, { $expr : {$gt : ["spent", "budget"]} , }]
+            },
+            {
+                $or: []
+            }
+        ])
+
         // challenge 2 
         const challenge2 = await db.collection("monthlyBudget").aggregate([{
             $match: {
-                $and: [{ "budget": { $gt: 150 } }, { "spent": { $gt: 300} }]
+                $and: [{ "budget": { $gt: 150 } }, { "spent": { $gt: 300 } }]
             }
         }]).toArray()
         // challenge 3
@@ -87,7 +98,7 @@ const monthlyBudget = async (req, res) => {
         // challenge 4
         const challenge4 = await db.collection("monthlyBudget").aggregate([
             {
-                $match: { $and: [{ "$expr": { "$gt": "$budget", } }, { "budget": { $gt: 100 } }] }
+                $match: { $and: [{ "$expr": { "$gt":  ["$spent", "$budget"] } }, { "budget": { $gt: 100 } }] }
             },
             {
                 $project: {
