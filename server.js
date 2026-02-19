@@ -22,7 +22,7 @@ require("./Learn/Module/In-built/path")
 // MainThread (SYNC)
 // require("./Learn/Module/In-built/LIBUV/mainthread")
 
- // Namaste JS //
+// Namaste JS //
 // require("./Learn/Module/In-built/LIBUV/event-loop-3")
 // require("./Learn/Module/In-built/LIBUV/event-loop-4")
 // ThreadPool (ASYNC)
@@ -62,7 +62,7 @@ require("./Learn/Module/In-built/path")
 // require("./JWT/jwtsecurity")
 
 // SOCKET.IO
-require("./SOCKET-JS/socketserver")
+// require("./SOCKET-JS/socketserver")
 
 
 
@@ -80,3 +80,26 @@ require("./SOCKET-JS/socketserver")
 
 
 // app.use(express.static("public"));
+
+
+
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const app = express();
+const learnRoutes = require("./Module/Router/learnRouter");
+
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use("/api", learnRoutes);
+
+
+const PORT = 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
