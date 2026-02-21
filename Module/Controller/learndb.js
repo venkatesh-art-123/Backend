@@ -78,7 +78,7 @@ const monthlyBudget = async (req, res) => {
         // budget : 200, spent : 300
         await db.collection("monthlyBudget").aggregate([
             {
-                $and: [ { "budget" : { $gt : 150 }}, { $expr : {$gt : ["spent", "budget"]} , }]
+                $and: [{ "budget": { $gt: 150 } }, { $expr: { $gt: ["spent", "budget"] }, }]
             },
             {
                 $or: []
@@ -98,7 +98,7 @@ const monthlyBudget = async (req, res) => {
         // challenge 4
         const challenge4 = await db.collection("monthlyBudget").aggregate([
             {
-                $match: { $and: [{ "$expr": { "$gt":  ["$spent", "$budget"] } }, { "budget": { $gt: 100 } }] }
+                $match: { $and: [{ "$expr": { "$gt": ["$spent", "$budget"] } }, { "budget": { $gt: 100 } }] }
             },
             {
                 $project: {
@@ -108,7 +108,115 @@ const monthlyBudget = async (req, res) => {
             }
         ]).toArray()
         console.log("monthlyBudget_data", challenge2, challenge3, challenge4)
-        return res.json(datas)
+        return res.json(datas);
+
+
+        let datas = [{ category: "Food", month: "JAN", spent: 450, budget: 400 },
+        { category: "Travel", month: "JAN", spent: 450, budget: 300 },
+        { category: "Food", month: "FEB", spent: 400, budget: 400 },
+        { category: "Travel", month: "MAR", spent: 100, budget: 200 },
+        { category: "purchase", month: "MAR", spent: 200, budget: 250 },
+        { category: "Travel", month: "APR", spent: 350, budget: 375 },
+        { category: "purchase", month: "APR", spent: 270, budget: 400 },
+        { category: "purchase", month: "APR", spent: 400, budget: 450 },
+        ]
+
+        const res = await db.collection("monthlyBudget").aggregate([{
+            $group: {
+                _id: "$category",
+                totalSpent: { $sum: "$spent" },
+                totalBudget: { $sum: "$budget" },
+            }
+        }, {
+            $addFields: { overBudget: { $expr: { "$gt": ["$totalSpent", "$totalBudget"] } } },
+            $addFields: { health: { $expr: { "$lte": ["$totalSpent", "$totalBudget"] } } }
+        },
+
+        {
+            $facet: {
+                $totalOverBudget: [{
+                    $group: {
+                        _id: "$category", totalSpent: { $sum: "$totalSpent" }, totalBudget: { $sum: "$totalBudget" },
+                        $healthy: ["$totalSpent", "$totalBudget"]
+                    }
+                }],
+                totalCategories: [{
+                    $group: {
+                        _id: "category",
+                        totalSpent: { $sum: "$totalSpent" },
+                        totalBudget: { $sum: "$totalBudget" }
+                    }
+                }]
+            }
+        }, {
+            $project: {
+                _id: 0,
+                $totalSpent: 1,
+                $totalOverBudget: 1,
+                $totalCategories: 1
+            }
+        }])
+
+        // ---------------------------------------------------
+        const res1 = await db.collection("monthlyBudget").aggregate([
+            {
+                $group: {
+                    _id: category,
+                    totalSpent: { "$sum": "$spent" },
+                    totalBudget: { "$sum": "$budget" },
+                    differences: { "$subtract": ["$spent", "$budget"] }
+                },
+
+            },
+            {
+                $lookup: {
+                    from: "categoryInfo",
+                    localField: "category",
+                    foreignField: "category",
+                    as: "department"
+                }
+            },
+            {
+                $group: {
+                    "_id": "$department",
+                    totalSpent: { "$sum": "$totalSpent" },
+                    totalBudget: { "$sum": "$totalBudget" },
+                    $cond: [{ $gt: ["$totalSpent", "$totalBudget"] }, 1, 0]
+                }
+            },
+            {
+                $facet: {
+                    "departments": [{
+                        $group : {
+                            "_id" : "$department",
+                            "totalSpent" : "$totalSpent",
+                            "totalBudget" : "$totalBudget",
+                            "OverBudgetCategories" : { "$sum" : "$totalBudget"}
+                        }
+                    }],
+                    "topOverSpendingCategory": [ {
+                        $group : {
+                            category : "$category",
+                            differences : { $subtract : ["$totalSpent", "$totalBudget"]}
+                        }
+                    }],
+                    "globalStatus": [
+                        {
+                            $group : {
+                                _id : null,
+                                grandTotalSpent : { "$sum" : "$totalSpent"},
+                                grandTotalBudget : { "$sum" : "$totalBudget"},
+                                totalDepartment : { "$sum" : "$departmens"}
+                                
+                            }
+                        }
+                    ]
+                }
+            }
+
+
+        ])
+
     } catch (e) {
         console.log("monthlyBudget__Err", e)
     }
